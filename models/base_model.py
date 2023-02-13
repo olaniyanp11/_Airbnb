@@ -8,13 +8,15 @@ class BaseModel():
 
     def __init__(self, *args, **kwargs):
         if len(kwargs) != 0:
-            for lil_dict in self.__dict__:
-                if lil_dict == "__class__":
+            for key, value in kwargs.items():
+                if key == "__class__":
                     continue
-                elif lil_dict == ["created_at"] or i == ["updated_at"]:
-                    lil_dict = lil_dict.fromisoformat()
+                elif key == "created_at" or key == "updated_at":
+                    self.__dict__[key] = datetime.fromisoformat(value)
+                else:
+                    self.__dict__[key] = value
         else:
-            self.id = uuid.uuid4()
+            self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
 
